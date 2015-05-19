@@ -1,7 +1,8 @@
 require "json"
 require "date"
 
-data = JSON.parse(File.read("data.json"))
+data = File.expand_path(File.dirname(__FILE__)) + '/data.json'
+data = JSON.parse(File.read(data))
 
 class Rentals
   include Enumerable

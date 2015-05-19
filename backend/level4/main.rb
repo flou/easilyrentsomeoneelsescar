@@ -42,6 +42,10 @@ class Rental
     @end_date   = Date.parse(attributes["end_date"])
     @distance   = attributes["distance"]
 
+    @deductible = attributes.fetch("deductible_reduction")
+    @options    = {}
+    compute_deductible_reduction
+
     @car = CARS.select { |car| car.id == @car_id }.first
   end
 
@@ -88,7 +92,19 @@ class Rental
   end
 
   def to_hash
-    { id: @id, price: price_of_rental, commission: commission }
+    {
+      id: @id,
+      price: price_of_rental,
+      options: @options,
+      commission: commission
+    }
+  end
+
+  private
+
+  def compute_deductible_reduction
+    reduction = @deductible ? 4 * duration * 100 : 0
+    @options[:deductible_reduction] = reduction
   end
 end
 
