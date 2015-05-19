@@ -32,6 +32,8 @@ class Car
 end
 
 class Rental
+  COMMISSION_RATE = 0.30
+
   def initialize(attributes)
     @id         = attributes["id"]
     @car_id     = attributes["car_id"]
@@ -48,7 +50,20 @@ class Rental
   end
 
   def price_for_duration
-    duration * @car.price_per_day
+    new_price = @car.price_per_day
+    cost = 0
+    duration.times do |n|
+      case n
+      when 1
+        new_price = @car.price_per_day * 0.9
+      when 4
+        new_price = @car.price_per_day * 0.7
+      when 10
+        new_price = @car.price_per_day * 0.5
+      end
+      cost += new_price
+    end
+    cost.to_i
   end
 
   def price_for_distance
@@ -59,8 +74,20 @@ class Rental
     price_for_duration + price_for_distance
   end
 
+  def commission
+    commission_price = price_of_rental * COMMISSION_RATE
+    insurance_fee    = commission_price * 0.50
+    assistance_fee   = duration * 100
+    drivy_fee        = commission_price - insurance_fee - assistance_fee
+    {
+      insurance_fee:  insurance_fee.to_i,
+      assistance_fee: assistance_fee.to_i,
+      drivy_fee:      drivy_fee.to_i
+    }
+  end
+
   def to_hash
-    { id: @id, price: price_of_rental }
+    { id: @id, price: price_of_rental, commission: commission }
   end
 end
 

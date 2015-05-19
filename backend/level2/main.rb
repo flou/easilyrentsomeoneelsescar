@@ -1,6 +1,5 @@
 require "json"
 require "date"
-require "awesome_print"
 
 data = JSON.parse(File.read("data.json"))
 
