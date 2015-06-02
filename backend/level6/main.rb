@@ -23,5 +23,4 @@ data["rental_modifications"].each do |mod|
   rentals.register_modification(mod)
 end
 
-puts JSON.pretty_generate rentals.balance
 puts JSON.pretty_generate rentals.compute_modifications
