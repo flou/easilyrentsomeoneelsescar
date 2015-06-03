@@ -38,7 +38,7 @@ end
 
 class Rental
   COMMISSION_RATE = 0.30
-  Actors = [
+  ACTORS = [
     { who: "driver",     type: "debit"  },
     { who: "owner",      type: "credit" },
     { who: "insurance",  type: "credit" },
@@ -125,7 +125,7 @@ class Rental
   end
 
   def list_actions
-    Actors.map do |actor|
+    ACTORS.map do |actor|
       case actor[:who]
       when "driver"
         actor.merge(amount: (rental_price + deductible_reduction).to_i)
